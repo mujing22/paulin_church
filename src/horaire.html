@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="./output.css">
+  
+  <title>Horaires | Chapelle Saint Sylvestre Lubumbashi</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .font-sans { font-family: 'Inter', sans-serif; }
+    .bg-papal-cream { background-color: #FDFCF8; }
+    .text-cardinal { color: #880808; }
+    .bg-cardinal { background-color: #880808; }
+    .text-gold { color: #C5A059; }
+    .border-gold { border-color: #C5A059; }
+
+    /* Ligne décorative */
+    .divider-gold {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #C5A059, transparent);
+    }
+  </style>
+</head>
+<body class="font-sans text-slate-900 bg-papal-cream">
+
+  <!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gold/20 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 md:px-8 py-4 flex items-center justify-between">
+    
+    <div class="flex flex-col">
+      <span class="text-xl font-serif font-bold text-slate-900 leading-none tracking-tight">SAINT SYLVESTRE</span>
+      <span class="text-[10px] tracking-[0.2em] text-gold font-bold uppercase mt-1">Chapelle Catholique</span>
+    </div>
+
+    <div class="hidden md:flex space-x-10 font-semibold text-[11px] uppercase tracking-[0.15em] text-slate-600">
+      <a href="index.html" class="text-cardinal transition">Accueil</a>
+      <a href="activté.html" class="hover:text-cardinal transitions">Activités</a>
+      <a href="horaire.html" class="hover:text-cardinal italic underline decoration-gold decoration-2 underline-offset-4">Horaires</a>
+      <a href="#contact" class="hover:text-cardinal transition">Contact</a>
+    </div>
+
+    <button id="menu-btn" class="block md:hidden focus:outline-none z-50 p-2 -mr-2" aria-label="Ouvrir le menu">
+      <div class="w-6 h-0.5 bg-slate-900 mb-1.5 transition-all duration-300 ease-in-out origin-center" id="bar1"></div>
+      <div class="w-6 h-0.5 bg-slate-900 mb-1.5 transition-all duration-300 ease-in-out" id="bar2"></div>
+      <div class="w-6 h-0.5 bg-slate-900 transition-all duration-300 ease-in-out origin-center" id="bar3"></div>
+    </button>
+
+  </div>
+</nav>
+
+<div id="mobile-menu" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-500 translate-x-full">
+  
+  <a href="index.html" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Accueil</a>
+  <a href="activté.html" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Activités</a>
+  <a href="horaire.html" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Horaires</a>
+  <a href="#contact" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Contact</a>
+  
+  <div class="w-12 h-px bg-gold/30 my-4"></div>
+  <span class="text-[10px] tracking-[0.3em] text-gold/80 font-bold uppercase font-sans">Lubumbashi, RDC</span>
+</div>
+
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+
+  // Fonction pour basculer le menu
+  function toggleMenu() {
+    const isOpen = mobileMenu.classList.contains('opacity-100');
+
+    if (!isOpen) {
+      // OUVERTURE
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none', 'translate-x-full');
+      mobileMenu.classList.add('opacity-100', 'translate-x-0');
+      
+      // Animation X
+      bars[0].classList.add('rotate-45', 'translate-y-2');
+      bars[1].classList.add('opacity-0');
+      bars[2].classList.add('-rotate-45', '-translate-y-2');
+
+      // Changement de couleur des barres (deviennent blanches sur le fond sombre flouté)
+      bars.forEach(bar => {
+        bar.classList.remove('bg-slate-900');
+        bar.classList.add('bg-white');
+      });
+
+      // Bloquer le scroll du site en arrière-plan
+      document.body.classList.add('overflow-hidden');
+    } else {
+      // FERMETURE
+      closeMenu();
+    }
+  }
+
+  function closeMenu() {
+    mobileMenu.classList.remove('opacity-100', 'translate-x-0');
+    mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'translate-x-full');
+    
+    // Reset Hamburger
+    bars[0].classList.remove('rotate-45', 'translate-y-2');
+    bars[1].classList.remove('opacity-0');
+    bars[2].classList.remove('-rotate-45', '-translate-y-2');
+
+    bars.forEach(bar => {
+      bar.classList.remove('bg-white');
+      bar.classList.add('bg-slate-900');
+    });
+
+    // Réactiver le scroll
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  // Événements
+  menuBtn.addEventListener('click', toggleMenu);
+
+  // Fermer proprement si on clique sur un lien mobile
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>
+</nav>
+  <!-- HEADER -->
+  <header class="bg-cardinal py-24 px-6 text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <svg class="w-full h-full" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M0 100 C 20 0 50 0 100 100 Z"></path>
+        </svg>
+    </div>
+    <div class="relative z-10" data-aos="fade-down">
+        <span class="text-gold uppercase tracking-[0.4em] text-[10px] font-bold">rendez-vous avec le seigneur</span>
+        <h1 class="text-4xl md:text-6xl font-serif text-white mt-4">Liturgie & Prière</h1>
+        <div class="w-16 h-0.5 bg-gold mx-auto mt-6 animate-pulse"></div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-20">
+
+    <!-- 1. MESSES DOMINICALES (Le coeur de la semaine) -->
+    <section class="mb-24 text-center">
+        <h2 class="text-3xl font-serif font-bold mb-12" data-aos="fade-right">Messes du Dimanche</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Messe 1 -->
+            <div class="bg-white p-10 border border-gold/10 shadow-sm hover:shadow-xl transition-all group" data-aos="fade-up" data-aos-delay="100">
+                <span class="text-xs font-bold text-gold uppercase tracking-widest block mb-4">Aube</span>
+                <div class="text-4xl font-serif text-cardinal mb-4">07:00</div>
+                <h3 class="font-bold text-slate-800 uppercase text-[11px] tracking-tighter mb-4">Messe en Swahili</h3>
+                <div class="w-8 h-px bg-slate-200 mx-auto group-hover:w-16 transition-all duration-500"></div>
+            </div>
+
+            <!-- Messe 2 (Principale) -->
+            <div class="bg-white p-10 border-2 border-gold shadow-2xl scale-105 relative z-10" data-aos="fade-up">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gold text-white px-4 py-1 text-[9px] font-bold uppercase tracking-widest">Principale</div>
+                <span class="text-xs font-bold text-gold uppercase tracking-widest block mb-4">Matinée</span>
+                <div class="text-5xl font-serif text-cardinal mb-4">09:00</div>
+                <h3 class="font-bold text-slate-800 uppercase text-[11px] tracking-tighter mb-4">Messe Solennelle (FR)</h3>
+                <p class="text-[10px] text-slate-400 italic">Animée par la Grande Chorale</p>
+            </div>
+
+            <!-- Messe 3 -->
+            <div class="bg-white p-10 border border-gold/10 shadow-sm hover:shadow-xl transition-all group" data-aos="fade-up" data-aos-delay="200">
+                <span class="text-xs font-bold text-gold uppercase tracking-widest block mb-4">Midi</span>
+                <div class="text-4xl font-serif text-cardinal mb-4">11:30</div>
+                <h3 class="font-bold text-slate-800 uppercase text-[11px] tracking-tighter mb-4">Messe des Jeunes</h3>
+                <div class="w-8 h-px bg-slate-200 mx-auto group-hover:w-16 transition-all duration-500"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 2. SEMAINE ET DÉVOTIONS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+        
+        <!-- Messes de semaine -->
+        <section data-aos="fade-right">
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-2xl font-serif font-bold">Messes en semaine</h2>
+                <div class="h-px flex-grow bg-gold/30"></div>
+            </div>
+            <div class="space-y-6">
+                <div class="flex justify-between items-end border-b border-dotted border-slate-300 pb-2">
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Lundi au Vendredi</h4>
+                        <p class="text-xs text-slate-500 italic">Messe matinale</p>
+                    </div>
+                    <span class="text-cardinal font-serif font-bold text-xl">06:30</span>
+                </div>
+                <div class="flex justify-between items-end border-b border-dotted border-slate-300 pb-2">
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Mercredi Soir</h4>
+                        <p class="text-xs text-slate-500 italic">Messe avec Vêpres</p>
+                    </div>
+                    <span class="text-cardinal font-serif font-bold text-xl">17:30</span>
+                </div>
+                <div class="flex justify-between items-end border-b border-dotted border-slate-300 pb-2">
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Samedi Matin</h4>
+                        <p class="text-xs text-slate-500 italic">Messe à la Vierge Marie</p>
+                    </div>
+                    <span class="text-cardinal font-serif font-bold text-xl">07:00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Autres temps spirituels -->
+        <section data-aos="fade-left">
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-2xl font-serif font-bold">Temps de Grâce</h2>
+                <div class="h-px flex-grow bg-gold/30"></div>
+            </div>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="bg-cardinal/5 p-6 border-l-4 border-cardinal">
+                    <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-widest mb-1">Confessions</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Tous les samedis de 15h00 à 17h00, ou sur rendez-vous après chaque messe de semaine.</p>
+                </div>
+                <div class="bg-gold/5 p-6 border-l-4 border-gold">
+                    <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-widest mb-1">Adoration</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Jeudi Saint (hebdomadaire) : Exposition du Saint Sacrement de 16h00 à 17h30.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 3. INFOS PRATIQUES / BUREAU -->
+    <section class="mt-24 bg-white shadow-2xl p-8 md:p-12 border border-gold/20" data-aos="zoom-in">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+            <div class="text-center md:text-left">
+                <h3 class="font-serif font-bold text-xl mb-2">Permanence du Curé</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">Le secrétariat paroissial est ouvert pour toute demande de certificats ou rendez-vous.</p>
+            </div>
+            <div class="flex flex-col items-center border-y md:border-y-0 md:border-x border-gold/20 py-8 md:py-0">
+                <span class="text-[10px] font-bold text-gold uppercase tracking-[0.3em] mb-2">Jours d'accueil</span>
+                <span class="text-sm font-semibold uppercase">Mardi & Vendredi</span>
+                <span class="text-xl font-serif text-cardinal mt-1">09h00 — 12h00</span>
+            </div>
+            <div class="text-center md:text-right">
+                <button class="bg-slate-900 text-white px-8 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-cardinal transition">Localisation Google Maps</button>
+            </div>
+        </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-white py-12 px-8">
+    <div class="text-center text-[9px] text-slate-600 tracking-[0.5em] uppercase font-bold">
+        Chapelle Saint Sylvestre • Lubumbashi RDC
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+  </script>
+</body>
+</html>

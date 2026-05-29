@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- AOS Library pour les animations au scroll -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="./dist/output.css">
+  
+  <title>Activités | Chapelle Saint Sylvestre Lubumbashi</title>
+  <meta name="description" content="Découvrez les activités, mouvements et événements de la Chapelle Saint Sylvestre à Lubumbashi.">
+  
+  <!-- Importation des polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .font-sans { font-family: 'Inter', sans-serif; }
+    .bg-papal-cream { background-color: #FDFCF8; }
+    .text-cardinal { color: #880808; }
+    .bg-cardinal { background-color: #880808; }
+    .text-gold { color: #C5A059; }
+    .border-gold { border-color: #C5A059; }
+
+    /* Animation de zoom lent pour l'image Hero */
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+    .hero-zoom { animation: slowZoom 20s linear infinite alternate; }
+
+    /* Animation de flottement pour le bouton Play */
+    @keyframes floating {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    .animate-float { animation: floating 3s ease-in-out infinite; }
+  </style>
+
+</head>
+<body class="font-sans text-slate-900 bg-papal-cream overflow-x-hidden">
+
+  <!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gold/20 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 md:px-8 py-4 flex items-center justify-between">
+    
+    <div class="flex flex-col">
+      <span class="text-xl font-serif font-bold text-slate-900 leading-none tracking-tight">SAINT SYLVESTRE</span>
+      <span class="text-[10px] tracking-[0.2em] text-gold font-bold uppercase mt-1">Chapelle Catholique</span>
+    </div>
+
+    <div class="hidden md:flex space-x-10 font-semibold text-[11px] uppercase tracking-[0.15em] text-slate-600">
+      <a href="index.html" class="text-cardinal italic underline decoration-gold decoration-2 underline-offset-4">Accueil</a>
+      <a href="activté.html" class="hover:text-cardinal transition">Activités</a>
+      <a href="horaire.html" class="hover:text-cardinal transition">Horaires</a>
+      <a href="#contact" class="hover:text-cardinal transition">Contact</a>
+    </div>
+
+    <button id="menu-btn" class="block md:hidden focus:outline-none z-50 p-2 -mr-2" aria-label="Ouvrir le menu">
+      <div class="w-6 h-0.5 bg-slate-900 mb-1.5 transition-all duration-300 ease-in-out origin-center" id="bar1"></div>
+      <div class="w-6 h-0.5 bg-slate-900 mb-1.5 transition-all duration-300 ease-in-out" id="bar2"></div>
+      <div class="w-6 h-0.5 bg-slate-900 transition-all duration-300 ease-in-out origin-center" id="bar3"></div>
+    </button>
+
+  </div>
+</nav>
+
+<div id="mobile-menu" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-500 translate-x-full">
+  
+  <a href="index.html" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Accueil</a>
+  <a href="activté.html" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Activités</a>
+  <a href="horaire.html" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Horaires</a>
+  <a href="#contact" class="text-2xl font-serif font-bold text-white hover:text-gold transition-colors duration-300">Contact</a>
+  
+  <div class="w-12 h-px bg-gold/30 my-4"></div>
+  <span class="text-[10px] tracking-[0.3em] text-gold/80 font-bold uppercase font-sans">Lubumbashi, RDC</span>
+</div>
+
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+
+  // Fonction pour basculer le menu
+  function toggleMenu() {
+    const isOpen = mobileMenu.classList.contains('opacity-100');
+
+    if (!isOpen) {
+      // OUVERTURE
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none', 'translate-x-full');
+      mobileMenu.classList.add('opacity-100', 'translate-x-0');
+      
+      // Animation X
+      bars[0].classList.add('rotate-45', 'translate-y-2');
+      bars[1].classList.add('opacity-0');
+      bars[2].classList.add('-rotate-45', '-translate-y-2');
+
+      // Changement de couleur des barres (deviennent blanches sur le fond sombre flouté)
+      bars.forEach(bar => {
+        bar.classList.remove('bg-slate-900');
+        bar.classList.add('bg-white');
+      });
+
+      // Bloquer le scroll du site en arrière-plan
+      document.body.classList.add('overflow-hidden');
+    } else {
+      // FERMETURE
+      closeMenu();
+    }
+  }
+
+  function closeMenu() {
+    mobileMenu.classList.remove('opacity-100', 'translate-x-0');
+    mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'translate-x-full');
+    
+    // Reset Hamburger
+    bars[0].classList.remove('rotate-45', 'translate-y-2');
+    bars[1].classList.remove('opacity-0');
+    bars[2].classList.remove('-rotate-45', '-translate-y-2');
+
+    bars.forEach(bar => {
+      bar.classList.remove('bg-white');
+      bar.classList.add('bg-slate-900');
+    });
+
+    // Réactiver le scroll
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  // Événements
+  menuBtn.addEventListener('click', toggleMenu);
+
+  // Fermer proprement si on clique sur un lien mobile
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>
+</nav>
+
+  <!-- 2. HERO SECTION -->
+  <header class="relative h-[80vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="./img/The Fruits of the Mysteries of the Rosary - Catholic Exchange.jpg" 
+           alt="Intérieur Chapelle" class="w-full h-full object-cover hero-zoom">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-papal-cream"></div>
+    </div>
+    
+    <div class="relative z-10 text-center text-white px-4" data-aos="fade-up" data-aos-duration="1500">
+      <span class="text-gold uppercase tracking-[0.3em] text-sm font-bold mb-4 block">
+        Archidiocèse de Lubumbashi
+      </span>
+      <h1 class="text-6xl md:text-8xl font-serif mb-8 drop-shadow-2xl">
+        Chapelle Saint Sylvestre
+      </h1>
+      <div class="w-20 h-1 bg-gold mx-auto mb-8 animate-pulse"></div>
+      <p class="text-xl md:text-2xl max-w-2xl mx-auto font-serif italic text-slate-200" data-aos="fade-up" data-aos-delay="500">
+        "Venez à moi, vous tous qui peinez..."
+      </p>
+    </div>
+  </header>
+
+  <!-- 3. SECTION SPIRITUELLE -->
+  <section class="max-w-6xl mx-auto -mt-16 relative z-30 px-6 mb-24">
+    <div class="flex flex-col md:flex-row gap-0 shadow-2xl rounded-sm overflow-hidden" data-aos="fade-up">
+        <!-- Saint du Jour -->
+        <div class="flex-1 bg-white p-10 border-l-8 border-gold">
+          <span class="text-xs font-bold text-gold uppercase tracking-widest block mb-2">Samedi 23 Mai 2026</span>
+          <h3 class="text-2xl font-serif font-bold text-slate-800">Saint Jean-Baptiste de Rossi</h3>
+          <p class="text-sm text-slate-600 mt-4 italic leading-relaxed">
+            "Le prêtre des pauvres et des délaissés à Rome au XVIIIe siècle."
+          </p>
+          <a href="#" class="inline-block mt-6 text-cardinal font-bold text-[10px] uppercase border-b border-cardinal pb-1 hover:text-gold hover:border-gold transition">Lire sa vie</a>
+        </div>
+        <!-- Lectures -->
+        <div class="flex-1 bg-red-800 text-white p-10">
+          <h3 class="text-xl font-serif font-bold mb-6 flex items-center">
+            <span class="mr-3 text-gold italic">📖</span> Lectures du prochain Dimanche
+          </h3>
+          <ul class="space-y-4">
+            <li class="flex items-center gap-4 border-b border-white/10 pb-2" data-aos="fade-left" data-aos-delay="200">
+              <span class="text-[10px] font-bold text-gold uppercase w-20">1ère Lect.</span>
+              <p class="text-xs font-light tracking-wide italic">Actes des Apôtres (2, 1-11)</p>
+            </li>
+            <li class="flex items-center gap-4 border-b border-white/10 pb-2" data-aos="fade-left" data-aos-delay="400">
+              <span class="text-[10px] font-bold text-gold uppercase w-20">Psaume</span>
+              <p class="text-xs font-light tracking-wide italic">Ps 103 (104)</p>
+            </li>
+            <li class="flex items-center gap-4" data-aos="fade-left" data-aos-delay="600">
+              <span class="text-[10px] font-bold text-gold uppercase w-20">Évangile</span>
+              <p class="text-xs font-light tracking-wide italic">Selon Saint Jean (15, 26-27)</p>
+            </li>
+          </ul>
+        </div>
+    </div>
+  </section>
+
+  <!-- 4. SECTION ACTIVITÉS -->
+  <main id="activites" class="max-w-7xl mx-auto px-6 py-12">
+    <section class="mt-24 grid grid-cols-1 lg:grid-cols-3 gap-12 border-t border-gold/20 pt-16">
+    
+    <div class="lg:col-span-2 bg-white p-8 md:p-10 border border-gold/10 shadow-sm" data-aos="fade-right">
+        <div class="flex items-center space-x-3 mb-6">
+            <span class="text-xl">📖</span>
+            <h3 class="font-serif font-bold text-2xl text-slate-900">La Parole du Jour</h3>
+        </div>
+        <span class="text-[10px] font-bold text-gold uppercase tracking-widest block mb-4">Lundi 25 Mai 2026</span>
+        
+        <div class="space-y-4 text-slate-600 text-sm font-light leading-relaxed">
+            <p class="italic border-l-2 border-gold pl-4 bg-papal-cream/50 py-2">
+                "Demandez, on vous donnera ; cherchez, vous trouverez ; frappez, on vous ouvrira." <br>
+                <span class="text-[11px] font-bold text-cardinal not-italic uppercase tracking-wider">— Évangile selon Saint Matthieu (7, 7)</span>
+            </p>
+            <p>
+                Chaque matin, retrouvez les textes de la sainte messe pour accompagner votre méditation quotidienne au cœur de notre ville de Lubumbashi.
+            </p>
+        </div>
+        <a href="#" class="inline-block mt-6 text-[10px] font-bold uppercase tracking-widest text-cardinal hover:text-gold transition">
+            Lire toutes les lectures →
+        </a>
+    </div>
+
+    <div class="bg-cardinal text-white p-8 md:p-10 flex flex-col justify-between relative overflow-hidden shadow-xl" data-aos="fade-left">
+        <div class="absolute inset-0 opacity-5 pointer-events-none">
+            <svg class="w-full h-full" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 100 C 30 20 60 20 100 100 Z"></path></svg>
+        </div>
+
+        <div class="relative z-10">
+            <div class="flex items-center space-x-3 mb-6">
+                <span class="text-xl">📢</span>
+                <h3 class="font-serif font-bold text-2xl text-white">Annonces</h3>
+            </div>
+            
+            <ul class="space-y-4 text-xs font-light text-slate-200 divide-y divide-white/10">
+                <li class="pt-0 pb-3">
+                    <span class="text-gold font-bold uppercase tracking-wider block text-[9px] mb-1">Catéchèse</span>
+                    Inscriptions ouvertes pour la première communion des enfants au secrétariat.
+                </li>
+                <li class="pt-3 pb-3">
+                    <span class="text-gold font-bold uppercase tracking-wider block text-[9px] mb-1">Mariages</span>
+                    Chrutin & Divine : 2ème scrutin ce dimanche à la messe de 09h00.
+                </li>
+                <li class="pt-3">
+                    <span class="text-gold font-bold uppercase tracking-wider block text-[9px] mb-1">Dons</span>
+                    Merci pour votre générosité lors de la quête spéciale pour la réfection du toit.
+                </li>
+            </ul>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-white/10 relative z-10">
+            <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gold hover:text-white transition flex items-center justify-between">
+                <span>Télécharger le bulletin complet (PDF)</span>
+                <span>↓</span>
+            </a>
+        </div>
+    </div>
+
+</section>
+    <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-4xl font-serif font-bold text-slate-900">Vie de la Chapelle</h2>
+        <p class="text-slate-500 italic mt-2">Événements récents et moments forts</p>
+        <div class="w-12 h-1 bg-gold mx-auto mt-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Carte : Récollection -->
+      <div data-aos="fade-up" data-aos-delay="100" class="group bg-white rounded-sm overflow-hidden shadow-lg border-b-4 border-transparent hover:border-cardinal transition-all duration-500">
+        <div class="relative h-56 overflow-hidden">
+            <img src="./img/The Fruits of the Mysteries of the Rosary - Catholic Exchange.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+            <div class="absolute top-4 left-4 bg-cardinal text-white px-3 py-1 text-[10px] font-bold uppercase tracking-tighter">Événement</div>
+        </div>
+        <div class="p-8">
+          <h3 class="text-2xl font-serif font-bold text-slate-800 mb-4">Récollection des jeunes</h3>
+          <p class="text-slate-500 text-sm leading-relaxed mb-6 font-light italic">
+            Un temps de silence et de partage pour fortifier votre foi en communauté.
+          </p>
+          <div class="flex justify-between items-center text-[11px] font-bold text-gold uppercase tracking-widest">
+            <span>24 Mai 2026</span>
+            <span>09:00 — 16:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte : Prière (Focus) -->
+      <div data-aos="fade-up" data-aos-delay="300" class="bg-cardinal text-white rounded-sm shadow-2xl p-10 flex flex-col justify-between transform md:-translate-y-6 relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 opacity-10">
+            <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path></svg>
+        </div>
+        <div class="relative z-10">
+          <span class="text-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-6 block">Méditation Hebdomadaire</span>
+          <h3 class="text-3xl font-serif mb-6 italic">Prière pour la Paix</h3>
+          <p class="text-lg leading-relaxed font-serif opacity-90 italic">
+            "Seigneur, fais de moi un instrument de ta paix..."
+          </p>
+        </div>
+        <button class="relative z-10 mt-10 border-b border-gold self-start text-gold text-xs font-bold uppercase tracking-widest hover:text-white transition">
+          Lire la suite
+        </button>
+      </div>
+
+      <!-- Carte : Messe -->
+      <div data-aos="fade-up" data-aos-delay="500" class="group bg-white rounded-sm overflow-hidden shadow-lg border-b-4 border-transparent hover:border-cardinal transition-all duration-500">
+        <div class="relative h-56 overflow-hidden">
+            <img src="./img/24136548000342295.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+            <div class="absolute top-4 left-4 bg-gold text-white px-3 py-1 text-[10px] font-bold uppercase tracking-tighter">Liturgie</div>
+        </div>
+        <div class="p-8">
+          <h3 class="text-2xl font-serif font-bold text-slate-800 mb-4">Messe Solennelle</h3>
+          <p class="text-slate-500 text-sm leading-relaxed mb-6 font-light italic">
+            Célébration solennelle suivie d'un moment de fraternité dans la cour de la chapelle.
+          </p>
+          <div class="flex justify-between items-center text-[11px] font-bold text-gold uppercase tracking-widest">
+            <span>Dimanche</span>
+            <span>09:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 5. SECTION HORAIRES -->
+  <section id="programmes" class="bg-white py-24 px-6 border-y border-gold/10">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="text-cardinal font-bold text-xs uppercase tracking-[0.3em]">Vie Liturgique</span>
+        <h2 class="text-4xl font-serif font-bold text-slate-900 mt-4">Horaires des Offices</h2>
+        <div class="w-12 h-1 bg-gold mx-auto mt-6"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div data-aos="fade-right" class="bg-papal-cream p-10 shadow-sm border-t-2 border-gold">
+          <h3 class="text-xl font-serif font-bold text-cardinal mb-8 flex items-center">
+            <span class="mr-3">⛪</span> Saintes Messes
+          </h3>
+          <div class="space-y-6 text-sm">
+            <div class="flex justify-between border-b border-slate-200 pb-4">
+              <span class="font-semibold text-slate-700 uppercase tracking-tighter text-xs">Lundi — Vendredi</span>
+              <span class="text-cardinal font-bold">06:30</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-200 pb-4">
+              <span class="font-semibold text-slate-700 uppercase tracking-tighter text-xs">Samedi Matin</span>
+              <span class="text-cardinal font-bold">07:00</span>
+            </div>
+            <div class="flex justify-between items-center bg-gold/10 p-4 -mx-4 rounded-sm border border-gold/20">
+              <span class="font-bold text-slate-900 uppercase tracking-tighter italic">Dimanche</span>
+              <span class="bg-cardinal text-white px-4 py-1 font-bold">09:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div data-aos="fade-left" class="space-y-6">
+            <h3 class="text-xl font-serif font-bold text-slate-800 mb-8 border-b pb-4 border-slate-100 flex items-center">
+                <span class="mr-3 text-gold">🕯️</span> Dévotions
+            </h3>
+            <div class="space-y-4">
+                <div class="flex items-center p-4 bg-white border-l-4 border-gold shadow-sm hover:translate-x-2 transition-transform">
+                    <span class="text-[10px] font-bold text-gold mr-6 w-8 italic text-center leading-none">JEU<br>17:00</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-700">Adoration du Saint-Sacrement</span>
+                </div>
+                <div class="flex items-center p-4 bg-white border-l-4 border-gold shadow-sm hover:translate-x-2 transition-transform">
+                    <span class="text-[10px] font-bold text-gold mr-6 w-8 italic text-center leading-none">VEN<br>16:30</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-700">Chemin de Croix (Carême)</span>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. SECTION DIRECT & REPLAY -->
+  <section id="direct" class="py-20 bg-papal-cream px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row items-center gap-12 bg-white p-2 border border-gold/20 shadow-2xl" data-aos="zoom-in">
+        <div class="relative w-full md:w-3/5 h-64 md:h-96 bg-slate-900 group overflow-hidden">
+          <img src="./img/messe-direct-placeholder.jpg" alt="Messe en direct" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition duration-700">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative animate-float">
+              <div class="absolute inset-0 bg-cardinal rounded-full animate-ping opacity-75"></div>
+              <button class="relative bg-cardinal text-white p-6 rounded-full shadow-2xl hover:scale-110 transition">
+                <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="absolute top-6 left-6 flex items-center gap-2 bg-red-600 px-3 py-1 rounded-full">
+            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+            <span class="text-[10px] font-bold text-white uppercase tracking-widest">En Direct</span>
+          </div>
+        </div>
+        <div class="flex-1 p-8">
+          <span class="text-cardinal font-bold text-xs uppercase tracking-widest">Communauté Virtuelle</span>
+          <h2 class="text-3xl font-serif font-bold text-slate-900 mt-2 mb-6">Suivre la Messe</h2>
+          <p class="text-slate-600 text-sm leading-relaxed mb-8 italic">
+            Participez à la liturgie en communion de prière via nos plateformes numériques.
+          </p>
+          <div class="space-y-4">
+            <a href="#" class="flex items-center justify-between p-4 bg-slate-50 border-l-4 border-blue-600 hover:bg-slate-100 transition shadow-sm">
+              <span class="text-xs font-bold uppercase text-slate-700">Direct sur Facebook Live</span>
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SEMAINE LITURGIQUE -->
+  <section class="py-24 bg-white px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4" data-aos="fade-up">
+        <div>
+          <span class="text-cardinal font-bold text-xs uppercase tracking-[0.3em]">Le Pain de la Parole</span>
+          <h2 class="text-4xl font-serif font-bold text-slate-900 mt-2">Semaine du 24 au 31 Mai</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-gold/20 border border-gold/20 shadow-2xl">
+        <div data-aos="zoom-in" data-aos-delay="100" class="bg-white p-6 hover:bg-papal-cream transition-colors">
+          <div class="flex justify-between items-start mb-6">
+            <span class="text-3xl font-serif font-bold text-slate-300">25</span>
+            <span class="text-[10px] font-bold text-gold uppercase tracking-tighter bg-gold/5 px-2 py-1">Lundi</span>
+          </div>
+          <h4 class="font-serif font-bold text-slate-800 text-lg mb-1">St Bède le Vénérable</h4>
+          <div class="space-y-3 pt-4 border-t border-slate-100 text-[11px]">
+            <p><span class="font-bold text-cardinal/70">1ère L.</span> 1 Pi 1, 3-9</p>
+            <p><span class="font-bold text-cardinal/70">Évangile</span> Mc 10, 17-27</p>
+          </div>
+        </div>
+        <!-- Répéter pour les autres jours avec des délais croissants (200, 300, 400) -->
+        <div data-aos="zoom-in" data-aos-delay="400" class="bg-cardinal p-6 text-white border-t-4 border-gold">
+          <div class="flex justify-between items-start mb-6">
+            <span class="text-3xl font-serif font-bold text-white/40">31</span>
+            <span class="text-[10px] font-bold text-gold uppercase tracking-tighter bg-white/10 px-2 py-1">Dimanche</span>
+          </div>
+          <h4 class="font-serif font-bold text-gold text-xl mb-1">LA PENTECÔTE</h4>
+          <div class="space-y-3 pt-4 border-t border-white/10 text-[11px]">
+            <p><span class="font-bold text-gold">Lect. 1</span> Ac 2, 1-11</p>
+            <p><span class="font-bold text-gold">Évangile</span> Jn 15, 26-27</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. FOOTER -->
+  <footer id="contact" class="bg-slate-950 text-white py-20 px-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 border-b border-white/10 pb-16">
+        <div data-aos="fade-up">
+            <h4 class="font-serif text-2xl mb-6">Saint Sylvestre</h4>
+            <p class="text-slate-400 text-sm leading-relaxed font-light italic">
+                Une communauté de foi vivante au cœur de Lubumbashi.
+            </p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="200">
+            <h5 class="text-gold font-bold text-[10px] uppercase tracking-[0.3em] mb-6">Soutenir (Mobile Money)</h5>
+            <div class="space-y-2 text-xs font-mono">
+              <p>M-Pesa: +243 81X XXX XXX</p>
+              <p>Airtel: +243 99X XXX XXX</p>
+            </div>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="400">
+            <h5 class="text-gold font-bold text-[10px] uppercase tracking-[0.3em] mb-6">Suivez-nous</h5>
+            <div class="flex gap-4">
+                <span class="hover:text-gold cursor-pointer transition">Facebook</span>
+                <span class="hover:text-gold cursor-pointer transition">YouTube</span>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-12 text-[9px] text-slate-600 tracking-[0.5em] uppercase font-bold">
+        © 2026 Chapelle Saint Sylvestre • Lubumbashi
+    </div>
+  </footer>
+
+  <!-- Scripts AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100,
+      easing: 'ease-in-out'
+    });
+  </script>
+</body>
+</html>
